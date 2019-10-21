@@ -14,9 +14,7 @@
         <script>
             $(document).ready(function () {
                 var n = 0;
-                alert("antes de todo");
                 n = <%=(Integer) (session.getAttribute("roles"))%>;
-                alert("antes del switch");
                 alert(n);
                 if (n == 1) {
                     $("#A1").attr('disabled', false);
@@ -41,8 +39,8 @@
                 <option id="A2" name=usuario value=2 disabled>Administrador de Aula</option>
                 <option id="A3" name=usuario value=3 disabled>Administrador General</option>
             </select>
-            <input type="submit" id="iniciar" value="Entrar"/>
-            <input type="submit" id="cerrar_sesion" value="Cerrar Sesion"/>
+            <input type="submit" name="iniciar" value="Entrar"/>
+            <input type="submit" name="cerrar_sesion" value="Cerrar Sesion"/>
         </form>
     </body>
 </html>

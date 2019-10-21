@@ -18,7 +18,7 @@
         if (ConexionEstatica.existeUsuario2(nom, codClave)) {
             
             Usuario f = ConexionEstatica.existeUsuario(request.getParameter("usuario"), codClave);
-            session.setAttribute("usuario", f.getCorreo());
+            session.setAttribute("usuario", f);
             
             int rol = ConexionEstatica.obtenerIdRoles(f.getId());
             session.setAttribute("roles", rol);
@@ -36,6 +36,7 @@
 //-----------------------------Del formulario-------------------------------------------
     if (request.getParameter("registrarse") != null) {
         ConexionEstatica.abrirBD();
+        
         String correo = request.getParameter("email");
         String clave = request.getParameter("contrasena");
         String codClave = Codificar.codifica(clave);
@@ -43,11 +44,14 @@
         String nombre = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
         ConexionEstatica.insertar_Usuario(correo, codClave, nombre, apellidos, edad);
+        
         int id_usuario = ConexionEstatica.obtenerIdUsuario(correo);
         ConexionEstatica.insertar_Rol(id_usuario);
+        
         String usuario = (String) (session.getAttribute("usuario"));
         LinkedList<Usuario> usuarios = ConexionEstatica.obtenerUsuarios();
         session.setAttribute("usuarios", usuarios);
+        
         response.sendRedirect("index.html");
         ConexionEstatica.cerrarBD();
     }
@@ -56,13 +60,13 @@
     if (request.getParameter("iniciar") != null) {
         int opcion= Integer.parseInt(request.getParameter("roles"));
         if(opcion==1){
-            response.sendRedirect("vista/profesor.jsp");
+            response.sendRedirect("vistas/profesor.jsp");
         }
         if(opcion==2){
-            response.sendRedirect("vista/adm_aula.jsp");
+            response.sendRedirect("vistas/adm_aula.jsp");
         }
         if(opcion==3){
-            response.sendRedirect("vista/adm_general.jsp");
+            response.sendRedirect("vistas/adm_general.jsp");
         }
     }
 
@@ -71,6 +75,7 @@
         Usuario f= (Usuario)(session.getAttribute("usuario"));
         Bitacora.escribirBitacora("Usuario " + f.getCorreo() + " se ha desconectado");        
         ConexionEstatica.cerrarBD();
+        response.sendRedirect("index.html");
     }
 //-----------------------------De la Opcion-------------------------------------------
 
