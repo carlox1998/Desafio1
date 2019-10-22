@@ -14,7 +14,7 @@
         <script>
             $(document).ready(function () {
                 var n = 0;
-                n = <%=(Integer) (session.getAttribute("roles"))%>;
+                n = <%=(Integer)(session.getAttribute("roles"))%>;
                 alert(n);
                 if (n == 1) {
                     $("#A1").attr('disabled', false);

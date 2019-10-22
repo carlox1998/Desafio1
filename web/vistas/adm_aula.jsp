@@ -12,10 +12,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>y tu k keres?</h1>
+        <h1>Que quieres hacer?</h1>
         <form name="formulario" action="../controlador.jsp" method="post">
-            <input type="submit" name="gestionar_aula" value="Administrar Aula"/>            
-        </form>        
-        <button>Ver Bitacora</button>
+            <input type="submit" name="gestionar_aula" value="Administrar Aula"/>
+            <input type="submit" name="gestionar_franja" value="Administrar Franjas"/>            
+        </form>
+        <form name="formulario2" action="../controlador.jsp" method="post">
+            <input type="submit" name="cerrar_sesion" value="Cerrar Sesion">
+            <input type="submit" name="cambiar_rol" value="Cambiar Rol">
+        </form>
     </body>
 </html>
