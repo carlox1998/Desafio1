@@ -134,6 +134,21 @@ public class ConexionEstatica {
         }
         return Aulas;
     }
+    
+    public static LinkedList obtenerFranjas() {
+        LinkedList Franjas = new LinkedList<>();
+        Franja a = null;
+        try {
+            String sentencia = "SELECT * FROM franjas";
+            ConexionEstatica.Conj_Registros = ConexionEstatica.Sentencia_SQL.executeQuery(sentencia);
+            while (Conj_Registros.next()) {
+                a = new Franja(Conj_Registros.getInt("Numero"),Conj_Registros.getString("Comienzo"), Conj_Registros.getString("Final"));
+                Franjas.add(a);
+            }
+        } catch (SQLException ex) {
+        }
+        return Franjas;
+    }
 
     public static int obtenerIdUsuario(String correo) {
         int sol = 0;
@@ -223,6 +238,14 @@ public class ConexionEstatica {
     public static void insertar_Usuario(String correo, String clave, String nombre, String apellidos, int edad) {
         try {
             String Sentencia = "INSERT INTO usuarios VALUES ('" + 0 + "','" + correo + "','" + clave + "','" + nombre + "','" + apellidos + "','" + edad + "')";
+            ConexionEstatica.Sentencia_SQL.executeUpdate(Sentencia);
+        } catch (SQLException ex) {
+        }
+    }
+    
+    public static void insertarFranja(int numero, String comienzo, String termina) {
+        try {
+            String Sentencia = "INSERT INTO franjas VALUES ('" + numero + "','" + comienzo + "','"+termina+"')";
             ConexionEstatica.Sentencia_SQL.executeUpdate(Sentencia);
         } catch (SQLException ex) {
         }

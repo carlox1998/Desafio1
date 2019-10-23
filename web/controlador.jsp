@@ -59,12 +59,22 @@
         response.sendRedirect("index.html");
         ConexionEstatica.cerrarBD();
     }
+//-----------------------------Del Profesor-------------------------------------------
 
 //-----------------------------De la Opcion-------------------------------------------
     if (request.getParameter("iniciar") != null) {
         int opcion = Integer.parseInt(request.getParameter("roles"));
         if (opcion == 1) {
+            ConexionEstatica.abrirBD();
+
+            LinkedList<Aula> aulas = ConexionEstatica.obtenerAulas();
+            session.setAttribute("aulas", aulas);
+
+            LinkedList<Franja> franjas = ConexionEstatica.obtenerFranjas();
+            session.setAttribute("franjas", franjas);
+
             response.sendRedirect("vistas/profesor.jsp");
+            ConexionEstatica.cerrarBD();
         }
         if (opcion == 2) {
             response.sendRedirect("vistas/adm_aula.jsp");
@@ -84,7 +94,11 @@
     }
 
     if (request.getParameter("gestionar_franja") != null) {
-
+        ConexionEstatica.abrirBD();
+        LinkedList<Franja> franjas = ConexionEstatica.obtenerFranjas();
+        session.setAttribute("franjas", franjas);
+        ConexionEstatica.cerrarBD();
+        response.sendRedirect("vistas/gest_franjas.jsp");
     }
 //-----------------------------Del Gest_aula-------------------------------------------
     if (request.getParameter("EliminarAula") != null) {
@@ -126,6 +140,18 @@
         session.removeAttribute("expirado");
         response.sendRedirect("vistas/adm_aula.jsp");
     }
+    
+    
+//-----------------------------Del Gest_franja-------------------------------------------
+    if(request.getParameter("anadir_franja") != null){
+        ConexionEstatica.abrirBD();
+        ConexionEstatica.insertarFranja(Integer.parseInt(request.getParameter("numero")),request.getParameter("nueva_franjaComienzo"),request.getParameter("nueva_franjaFinal"));
+        LinkedList<Franja> franjas = ConexionEstatica.obtenerFranjas();
+        session.setAttribute("franjas", franjas);
+        ConexionEstatica.cerrarBD();
+        response.sendRedirect("vistas/gest_franjas.jsp");
+    }
+    
 //-----------------------------Del formualrio en todos los usuarios-------------------------------------------
 
     if (request.getParameter("cerrar_sesion") != null) {
@@ -133,7 +159,6 @@
         Usuario f = (Usuario) (session.getAttribute("usuario"));
         Bitacora.escribirBitacora("Usuario " + f.getCorreo() + " se ha desconectado");
         session.invalidate();
-        session.setAttribute("cosarandom", "val");
         response.sendRedirect("index.html");
     }
     if (request.getParameter("cambiar_rol") != null) {
@@ -142,11 +167,12 @@
     }
 
 //-----------------------------De cualquier pagina tras logearse-------------------------------------------
-  /**  if (session.getAttribute("expirado") != null) {//Esto hacer con aplication
-        session.removeAttribute("expirado");
-        Usuario f = (Usuario) (session.getAttribute("usuario"));
-        Bitacora.escribirBitacora("Usuario " + f.getCorreo() + " se ha desconectado");
-        response.sendRedirect("index.html");
-    }
-     **/
+    /**
+     * if (session.getAttribute("expirado") != null) {//Esto hacer con
+     * aplication session.removeAttribute("expirado"); Usuario f = (Usuario)
+     * (session.getAttribute("usuario")); Bitacora.escribirBitacora("Usuario " +
+     * f.getCorreo() + " se ha desconectado");
+     * response.sendRedirect("index.html"); }
+     *
+     */
 %>

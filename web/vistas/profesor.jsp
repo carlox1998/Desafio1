@@ -4,6 +4,8 @@
     Author     : carlox
 --%>
 
+<%@page import="java.util.LinkedList"%>
+<%@page import="BBDD.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,43 +16,53 @@
         <script>
             $(document).ready(function () {
                 var hoy = new Date();
-                var anio= hoy.getFullYear();
-                var mes= hoy.getMonth()+1;
-                var dia= hoy.getDate();
-                var fecha= anio+"-"+mes+"-"+dia;
+                var anio = hoy.getFullYear();
+                var mes = hoy.getMonth() + 1;
+                var dia = hoy.getDate();
+                var fecha = anio + "-" + mes + "-" + dia;
                 $("#fecha").attr('min', fecha);
-                $("#fecha").val(fecha); 
+                $("#fecha").val(fecha);
             });
-            
- /**           function myOnLoad() {
-                cargar_Aula();
-            }
-            function cargar_Aula() {
-                var array = ["101", "102", "103", "104", "105"];
-                addOptions("aula", array);
+
+            /**       
+             Meter datos dentro de un select con JavaScript
+             function myOnLoad() {
+             cargar_Aula();
+             }
+             function cargar_Aula() {
+             var array = ["101", "102", "103", "104", "105"];
+             addOptions("aula", array);
+             }
+             
+             function addOptions(domElement, array) {
+             var select = document.getElementsByName(domElement)[0];
+             for (value in array) {
+             var option = document.createElement("option");
+             option.text = array[value];
+             select.add(option);
+             }
+             }
+             **/
+            function mostrarAula() {
+
             }
 
-            function addOptions(domElement, array) {
-                var select = document.getElementsByName(domElement)[0];
-                for (value in array) {
-                    var option = document.createElement("option");
-                    option.text = array[value];
-                    select.add(option);
-                }
-            }
-                      **/
-            function mostrarAula() {
-                
-            }
-  
         </script>
     </head>
     <body>
         Elije la fecha: <input id="fecha" type="date" onchange="mostrarAula()"/><br/>
         Elije el Aula:
         <select name="aula" onchange="mostrarAula()">
-            <option disabled>Seleccione un Aula</option>
+            <%
+                LinkedList<Aula> aula = (LinkedList) (session.getAttribute("aulas"));
+                for (Aula paux : aula) {
+            %>
+            <option><%=paux.getNumero()%></option>
+            <%
+                }
+            %>
         </select>
+            <p>Aula:<%=aula.get(0).getNumero() %></p>
         <table>
             <thead>
                 <tr>
@@ -60,36 +72,17 @@
                 </tr>                
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <%
+                    LinkedList<Franja> franja = (LinkedList) (session.getAttribute("franjas"));
+                    for (Franja faux : franja) {%>
+                    <tr>
+                        <td><%=faux.getComienzo()%></td>
+                        <td><%=faux.getFinal()%></td>
+                        <td></td>
+                    </tr>
+                <%
+                    }
+                %>
             </tbody>
         </table>
         <form name="formulario2" action="../controlador.jsp" method="post">

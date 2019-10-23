@@ -7,4 +7,42 @@ and open the template in the editor.
     Created on : 17-oct-2019, 10:36:07
     Author     : carlox
 */
+body {
 
+}
+
+form {
+    width: 300px;
+    height: 600px;
+    display: grid;
+    position: absolute;
+    grid-template-columns: [labels] auto [opciones] 1fr;
+    grid-auto-flow: row;
+    background-color: #A8CABA;
+    top: 50%;
+    left: 50%;
+}
+h1{
+    text-align: center;
+    grid-column: labels;
+    grid-row: auto;
+    grid-column: span 2;
+}
+
+label{
+    grid-column: labels;
+    grid-row: auto;
+}
+
+input{
+    width: 150px;
+    height: 20px;
+    grid-column: opciones;
+    grid-row: auto;
+}
+a,label{
+    margin-left: 10px;
+}
+a{
+    text-align: center;
+}

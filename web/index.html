@@ -9,11 +9,13 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
     </head>
     <body>
         <form name="formulario" action="controlador.jsp" method="post">
-            Usuario:<input name="usuario" type="text">
-            Password: <input name="contra" type="password"><br/>            
+            <h1>Login</h1>
+            <label for="usuario">Usuario</label><input id="usuario" name="usuario" type="text">
+            <label for="contra">Password</label> <input id="contra" name="contra" type="password">            
             <a href="vistas/formulario.jsp">Registrarse</a>
             <a href="vistas/olvidado.jsp">Olvide la Contraseña</a><br/>
             <input type="submit" name="validar" value="Aceptar">
