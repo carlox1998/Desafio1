@@ -15,7 +15,7 @@
         String clave = request.getParameter("contra");
         String codClave = Codificar.codifica(clave);
         ConexionEstatica.abrirBD();
-        if (ConexionEstatica.existeUsuario2(nom, codClave)) {
+        if (ConexionEstatica.existeUsuarioExcepcion(nom, codClave)) {
 
             Usuario f = ConexionEstatica.existeUsuario(request.getParameter("usuario"), codClave);
             session.setAttribute("usuario", f);
@@ -51,8 +51,8 @@
 
         int id_usuario = ConexionEstatica.obtenerIdUsuario(correo);
         ConexionEstatica.insertar_Rol(id_usuario);
-
         String usuario = (String) (session.getAttribute("usuario"));
+
         LinkedList<Usuario> usuarios = ConexionEstatica.obtenerUsuarios();
         session.setAttribute("usuarios", usuarios);
 
@@ -60,7 +60,9 @@
         ConexionEstatica.cerrarBD();
     }
 //-----------------------------Del Profesor-------------------------------------------
+    if (request.getParameter("mostrar_reserva") != null) {
 
+    }
 //-----------------------------De la Opcion-------------------------------------------
     if (request.getParameter("iniciar") != null) {
         int opcion = Integer.parseInt(request.getParameter("roles"));
@@ -99,6 +101,21 @@
         session.setAttribute("franjas", franjas);
         ConexionEstatica.cerrarBD();
         response.sendRedirect("vistas/gest_franjas.jsp");
+    }
+
+//-----------------------------Del Admin_general-------------------------------------------
+    if (request.getParameter("gestionar_usuarios") != null) {
+        ConexionEstatica.abrirBD();
+        Usuario u = (Usuario) (session.getAttribute("usuario"));
+        LinkedList<Usuario> usuarios = ConexionEstatica.obtenerUsuariosExcepcion(u.getCorreo());
+        session.setAttribute("usuarios", usuarios);
+
+        ConexionEstatica.cerrarBD();
+        response.sendRedirect("vistas/gest_usuarios.jsp");
+    }
+
+    if (request.getParameter("bitacora") != null) {
+
     }
 //-----------------------------Del Gest_aula-------------------------------------------
     if (request.getParameter("EliminarAula") != null) {
@@ -140,20 +157,36 @@
         session.removeAttribute("expirado");
         response.sendRedirect("vistas/adm_aula.jsp");
     }
-    
-    
+
 //-----------------------------Del Gest_franja-------------------------------------------
-    if(request.getParameter("anadir_franja") != null){
+    if (request.getParameter("anadir_franja") != null) {
         ConexionEstatica.abrirBD();
-        ConexionEstatica.insertarFranja(Integer.parseInt(request.getParameter("numero")),request.getParameter("nueva_franjaComienzo"),request.getParameter("nueva_franjaFinal"));
+        ConexionEstatica.insertarFranja(Integer.parseInt(request.getParameter("numero")), request.getParameter("nueva_franjaComienzo"), request.getParameter("nueva_franjaFinal"));
         LinkedList<Franja> franjas = ConexionEstatica.obtenerFranjas();
         session.setAttribute("franjas", franjas);
         ConexionEstatica.cerrarBD();
         response.sendRedirect("vistas/gest_franjas.jsp");
     }
-    
-//-----------------------------Del formualrio en todos los usuarios-------------------------------------------
 
+//-----------------------------Del Gest_usuario--------------------------------------------------------------
+    if (request.getParameter("EliminarUsuario") != null) {
+        ConexionEstatica.abrirBD();
+        ConexionEstatica.EliminarUsuario(request.getParameter("nombre"));
+
+        ConexionEstatica.cerrarBD();
+        response.sendRedirect("vistas/gest_usuario.jsp");
+    }
+    
+    if (request.getParameter("ModificarUsuario") != null) {
+        ConexionEstatica.abrirBD();
+        Usuario f = (Usuario) (session.getAttribute("usuario"));
+        ConexionEstatica.CambiarUsuario(f.getNombre(),f.getApellidos(),f.getEdad(),f.getActivo(),f.getRol(), f.getId());
+
+        ConexionEstatica.cerrarBD();
+        response.sendRedirect("vistas/gest_usuario.jsp");
+    }
+
+//-----------------------------Del formualrio en todos los usuarios-------------------------------------------
     if (request.getParameter("cerrar_sesion") != null) {
         session.removeAttribute("expirado");
         Usuario f = (Usuario) (session.getAttribute("usuario"));
@@ -169,7 +202,7 @@
 //-----------------------------De cualquier pagina tras logearse-------------------------------------------
     /**
      * if (session.getAttribute("expirado") != null) {//Esto hacer con
-     * aplication session.removeAttribute("expirado"); Usuario f = (Usuario)
+     * application session.removeAttribute("expirado"); Usuario f = (Usuario)
      * (session.getAttribute("usuario")); Bitacora.escribirBitacora("Usuario " +
      * f.getCorreo() + " se ha desconectado");
      * response.sendRedirect("index.html"); }

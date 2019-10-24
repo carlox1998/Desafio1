@@ -22,7 +22,12 @@
                 var fecha = anio + "-" + mes + "-" + dia;
                 $("#fecha").attr('min', fecha);
                 $("#fecha").val(fecha);
+                comprobar();
             });
+
+            function comprobar() {
+
+            }
 
             /**       
              Meter datos dentro de un select con JavaScript
@@ -43,16 +48,12 @@
              }
              }
              **/
-            function mostrarAula() {
-
-            }
-
         </script>
     </head>
     <body>
-        Elije la fecha: <input id="fecha" type="date" onchange="mostrarAula()"/><br/>
+        Elije la fecha: <input id="fecha" type="date"/><br/>
         Elije el Aula:
-        <select name="aula" onchange="mostrarAula()">
+        <select name="aula">
             <%
                 LinkedList<Aula> aula = (LinkedList) (session.getAttribute("aulas"));
                 for (Aula paux : aula) {
@@ -62,7 +63,10 @@
                 }
             %>
         </select>
-            <p>Aula:<%=aula.get(0).getNumero() %></p>
+        <p>Aula:<%=aula.get(0).getNumero()%></p>
+        <form>
+            <input type="submit" name="mostrar_reserva" value="Ver el Aula">
+        </form>
         <table>
             <thead>
                 <tr>
@@ -73,13 +77,15 @@
             </thead>
             <tbody>
                 <%
+                    LinkedList<Reserva> reserva = (LinkedList) (session.getAttribute("reserva"));
                     LinkedList<Franja> franja = (LinkedList) (session.getAttribute("franjas"));
-                    for (Franja faux : franja) {%>
-                    <tr>
-                        <td><%=faux.getComienzo()%></td>
-                        <td><%=faux.getFinal()%></td>
-                        <td></td>
-                    </tr>
+                    for (Franja faux : franja) {
+                %>
+                <tr>
+                    <td><%=faux.getComienzo()%></td>
+                    <td><%=faux.getFinal()%></td>
+                    <td><input type="submit" name="" value=""></td>
+                </tr>
                 <%
                     }
                 %>

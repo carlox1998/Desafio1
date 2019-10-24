@@ -18,7 +18,6 @@
                 $("#anadir_franja").attr('disabled', true);
 
                 $("#nueva_franjaComienzo").blur(function () {
-
                     var hora = $(this).val();
                     var hora2 = $("#nueva_franjaFinal").val();
                     alert(hora2);
@@ -28,7 +27,6 @@
                     num1 = parseInt(num1);
                     alert(num1);
                     var num2 = numeros[1];
-                    ;
                     num2 = parseInt(num2);
                     alert(num2);
                     if ((num1 < 23 && num1 >= 0) && (num2 < 60 && num2 >= 0)) {
@@ -56,33 +54,6 @@
                     }
                 });
 
-                $("#nueva_franjaFinal").blur(function () {
-                    var hora = $(this).val();
-                    var hora2 = $("#nueva_franjaComienzo").val();
-                    alert(hora);
-                    var numeros = hora.split(":");
-                    var num1 = numeros[0];
-                    num1 = parseInt(num1);
-                    alert(num1);
-                    var num2 = numeros[1];
-                    num2 = parseInt(num2);
-                    alert(num2);
-                    if ((num1 < 23 && num1 >= 00) && (num2 < 60 && num2 >= 00)) {
-                        num2 = num2 - 55;
-                        if (num2 < 0) {
-                            num2 = num2 + 60;
-                            num1 = num1 - 1;
-                        }
-                        if (num1 ==24) {
-                            num1 = 23;
-                        }
-                        $("#nueva_franjaComienzo").val(num1 + ":" + num2);
-                    } else {
-                        alert("hora incorrecta");
-                        $("#anadir_franja").attr('disabled', true);
-                    }
-                });
-
                 /**  
                  Otra
                  $("#nueva_franjaFinal").blur(function () {
@@ -99,6 +70,10 @@
                  });
                  **/
             });
+
+            function volver() {
+                location.href = "adm_aula.jsp";
+            }
         </script>
     </head>
     <body>
@@ -129,6 +104,7 @@
         <input type="time" id="nueva_franjaFinal" name="nueva_franjaFinal" readonly required>
         <input type="submit" id="anadir_franja" name="anadir_franja" value="Añadir">
     </form>
+    <input type="submit"  name="anterior_aula" value="Anterior" onclick="volver()">
     <form name="formulario2" action="../controlador.jsp" method="post">
         <input type="submit" name="cerrar_sesion" value="Cerrar Sesion">
         <input type="submit" name="cambiar_rol" value="Cambiar Rol">

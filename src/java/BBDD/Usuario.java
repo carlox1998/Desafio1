@@ -16,6 +16,8 @@ public class Usuario {
     private String nombre;
     private String apellidos;
     private int edad;
+    private int activo;
+    private int rol;
 
     public Usuario() {
     }
@@ -27,6 +29,41 @@ public class Usuario {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.edad = edad;
+    }
+
+    public Usuario(int id, String correo, String clave, String nombre, String apellidos, int edad, int activo, int rol) {
+        this.id = id;
+        this.correo = correo;
+        this.clave = clave;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.edad = edad;
+        this.activo = activo;
+        this.rol = rol;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
     }
 
     public int getId() {

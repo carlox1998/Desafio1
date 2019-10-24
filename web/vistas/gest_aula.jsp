@@ -24,6 +24,9 @@
                 s++;
                 t = setTimeout("contar(" + s + ")", 1000);
             }
+            function volver() {
+                location.href="adm_aula.jsp";
+            }
             window.onload = document.onmousemove = contar;
 
 
@@ -54,8 +57,8 @@
                 <input type="number" name="numero" value="" required>
                 <input type="text" name="descripcion" value="" required>
                 <input type="submit"  name="AnadirAula" value="Añadir">
-                <input type="submit"  name="anterior_aula" value="Anterior">
-            </form>
+            </form>            
+            <input type="submit"  name="anterior_aula" value="Anterior" onclick="volver()">
             <form name="formulario2" action="../controlador.jsp" method="post">
                 <input type="submit" name="cerrar_sesion" value="Cerrar Sesion">
                 <input type="submit" name="cambiar_rol" value="Cambiar Rol">
