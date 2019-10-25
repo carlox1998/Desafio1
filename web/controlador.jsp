@@ -107,9 +107,8 @@
     if (request.getParameter("gestionar_usuarios") != null) {
         ConexionEstatica.abrirBD();
         Usuario u = (Usuario) (session.getAttribute("usuario"));
-        LinkedList<Usuario> usuarios = ConexionEstatica.obtenerUsuariosExcepcion(u.getCorreo());
+        LinkedList<Usuario> usuarios = ConexionEstatica.obtenerUsuariosExcepcion(u.getCorreo(),u.getId());
         session.setAttribute("usuarios", usuarios);
-
         ConexionEstatica.cerrarBD();
         response.sendRedirect("vistas/gest_usuarios.jsp");
     }
@@ -171,19 +170,30 @@
 //-----------------------------Del Gest_usuario--------------------------------------------------------------
     if (request.getParameter("EliminarUsuario") != null) {
         ConexionEstatica.abrirBD();
-        ConexionEstatica.EliminarUsuario(request.getParameter("nombre"));
+        ConexionEstatica.EliminarUsuario(request.getParameter("correo"));
 
         ConexionEstatica.cerrarBD();
         response.sendRedirect("vistas/gest_usuario.jsp");
-    }
-    
+    }  
     if (request.getParameter("ModificarUsuario") != null) {
-        ConexionEstatica.abrirBD();
-        Usuario f = (Usuario) (session.getAttribute("usuario"));
-        ConexionEstatica.CambiarUsuario(f.getNombre(),f.getApellidos(),f.getEdad(),f.getActivo(),f.getRol(), f.getId());
-
+        ConexionEstatica.abrirBD();        
+        LinkedList<Usuario> usuarios = (LinkedList) (session.getAttribute("usuarios"));
+        for (int i = 0; i < usuarios.size(); i++) {
+                if (usuarios.get(i).getCorreo().equals(request.getParameter("correo"))){
+                    session.setAttribute("usuarioMod", usuarios.get(i));
+                }                
+            }
+        
+        Usuario f = (Usuario) (session.getAttribute("usuarioMod"));
+        int n=Integer.parseInt(request.getParameter("edad"));
+        n=Integer.parseInt(request.getParameter("activo"));
+        n=Integer.parseInt(request.getParameter("rol"));
+        ConexionEstatica.CambiarUsuario(request.getParameter("nombre"),request.getParameter("apellido"),Integer.parseInt(request.getParameter("edad")),Integer.parseInt(request.getParameter("activo")),Integer.parseInt(request.getParameter("rol")), f.getId());
+        Usuario u = (Usuario) (session.getAttribute("usuario"));
+        usuarios = ConexionEstatica.obtenerUsuariosExcepcion(u.getCorreo(),u.getId());
+        session.setAttribute("usuarios", usuarios);
         ConexionEstatica.cerrarBD();
-        response.sendRedirect("vistas/gest_usuario.jsp");
+        response.sendRedirect("vistas/gest_usuarios.jsp");
     }
 
 //-----------------------------Del formualrio en todos los usuarios-------------------------------------------
